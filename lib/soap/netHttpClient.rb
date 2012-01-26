@@ -164,12 +164,14 @@ private
   end
 
   def create_connection(url)
-    proxy_host = proxy_port = nil
+    proxy_host = proxy_port = proxy_user = proxy_password = nil
     unless no_proxy?(url)
       proxy_host = @proxy.host
       proxy_port = @proxy.port
+      proxy_user = @proxy.user
+      proxy_password = @proxy.password
     end
-    http = Net::HTTP::Proxy(proxy_host, proxy_port).new(url.host, url.port)
+    http = Net::HTTP::Proxy(proxy_host, proxy_port, proxy_user, proxy_password).new(url.host, url.port)
     if http.respond_to?(:set_debug_output)
       http.set_debug_output(@debug_dev)
     end
